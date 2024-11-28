@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux'; // Import useDispatch
 import { login } from '../redux/authSlice'; // Import the login action
-import { Container, Paper, Typography, TextField, Button, Box } from '@mui/material';
+import { TextField, Button, Typography, Container, Paper, Box } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const dispatch = useDispatch(); // Get the dispatch function from Redux
   const navigate = useNavigate();
-  const dispatch = useDispatch(); // Hook to dispatch actions
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -20,13 +20,13 @@ const LoginPage = () => {
         password,
       });
 
-      // Store the token in localStorage
+      // Store the JWT token in localStorage
       localStorage.setItem('token', response.data.token);
 
-      // Dispatch login action with userType
-      dispatch(login({ userType: response.data.user.type }));
+      // Dispatch the user data to Redux
+      dispatch(login({ role: response.data.user.type }));
 
-      // Redirect based on user type
+      // Redirect the user based on role
       if (response.data.user.type === 'admin') {
         navigate('/admin/employees');
       } else {

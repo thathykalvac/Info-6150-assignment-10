@@ -1,19 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux'; // Use Redux hooks
 import { AppBar, Toolbar, Typography, Button, Box, IconButton, Drawer, List, ListItem, ListItemText } from '@mui/material';
 import { Link } from 'react-router-dom';
 import MenuIcon from '@mui/icons-material/Menu';
-import { useSelector, useDispatch } from 'react-redux';
-import { logout } from '../redux/authSlice';
+import { logout } from '../redux/authSlice'; // Import the logout action
 
 const Navbar = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const { userType, isAuthenticated } = useSelector((state) => state.auth); // Access user type and auth state
   const dispatch = useDispatch();
+  const userRole = useSelector((state) => state.auth.user?.role); // Get user role from Redux
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
-    dispatch(logout()); // Dispatch logout action
-    window.location.href = '/'; // Redirect to Login page
+    dispatch(logout()); // Dispatch the logout action
+    window.location.href = '/'; // Redirect to login page
   };
 
   const toggleDrawer = (open) => (event) => {
@@ -23,9 +22,8 @@ const Navbar = () => {
     setDrawerOpen(open);
   };
 
-  // Define navigation items based on user type
-  const navItems = isAuthenticated
-    ? userType === 'admin'
+  const navItems =
+    userRole === 'admin'
       ? [
           { label: 'Add Job', path: '/admin/add-job' },
           { label: 'Users', path: '/admin/employees' },
@@ -36,8 +34,7 @@ const Navbar = () => {
           { label: 'Job Listings', path: '/job-listings' },
           { label: 'Contact', path: '/contact' },
           { label: 'Company Showcase', path: '/company-showcase' },
-        ]
-    : [];
+        ];
 
   return (
     <AppBar position="sticky">
@@ -51,11 +48,9 @@ const Navbar = () => {
               {item.label}
             </Button>
           ))}
-          {isAuthenticated && (
-            <Button color="inherit" onClick={handleLogout}>
-              Logout
-            </Button>
-          )}
+          <Button color="inherit" onClick={handleLogout}>
+            Logout
+          </Button>
         </Box>
         <IconButton
           color="inherit"
@@ -74,11 +69,9 @@ const Navbar = () => {
                 <ListItemText primary={item.label} />
               </ListItem>
             ))}
-            {isAuthenticated && (
-              <ListItem button onClick={handleLogout}>
-                <ListItemText primary="Logout" />
-              </ListItem>
-            )}
+            <ListItem button onClick={handleLogout}>
+              <ListItemText primary="Logout" />
+            </ListItem>
           </List>
         </Box>
       </Drawer>
