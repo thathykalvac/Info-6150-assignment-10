@@ -100,15 +100,3 @@ The frontend is built using **React**, **Redux**, and **Material-UI** to provide
 
 ---
 
-## Installation and Setup
-
-### Prerequisites:
-- Node.js and npm installed.
-- MongoDB connection string.
-
-### Steps:
-
-1. **Clone the Repository**:
-   ```bash
-   git clone https://github.com/your-username/job-portal.git
-   cd job-portal
