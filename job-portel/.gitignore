@@ -1,0 +1,23 @@
+# Node modules
+node_modules/
+
+# Logs
+*.log
+
+# Environment variables file
+.env
+
+# Build directories
+build/
+dist/
+
+# Dependency directories
+.pnp/
+.pnp.js
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# npm package lock files (optional)
+package-lock.json
